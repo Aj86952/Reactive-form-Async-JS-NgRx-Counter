@@ -1,0 +1,95 @@
+<!-- <div class="container">
+    <h4> Template Driven Form</h4>
+    <form class="row" #userForm="ngForm" (ngSubmit)="submit(userForm.value)">
+      <input type="text" placeholder="Enter name" name="name" ngModel required #name="ngModel"/>
+      <div *ngIf="name.invalid && name.touched" style="color: red;">Enter name</div>
+      <input type="email" email placeholder="Enter email" name="email" ngModel required #email="ngModel"/>
+      <div *ngIf="email.invalid && email.touched" style="color: red;">Enter email</div>
+      <input type="tel" minlength="4" maxlength="16" placeholder="Enter number" name="number" ngModel required #number="ngModel"/>
+      <div *ngIf="number.invalid && number.touched" style="color: red;">Enter number</div>
+      <button [disabled]="userForm.invalid" type="submit">Submit</button>
+    </form>
+  </div> -->
+
+  <!-- ================================================================================ -->
+
+  <div class="container">
+    <h4> Reactive Form</h4>
+    <form class="row" [formGroup]="registrationForm" (ngSubmit)="submit()">
+
+     <div class="row" formGroupName="personalDetails">
+      <label for="name">Full Name :</label>
+      <input id="name" type="text" placeholder="Your full name..." formControlName="name"/>
+      <div *ngIf="registrationForm.get('personalDetails.name').invalid && registrationForm.get('personalDetails.name').touched" style="color: red;">Please enter full name</div>
+
+      <label for="email">Eamil id :</label>
+      <input id="email" type="email" email placeholder="Your email..." formControlName="email"/>
+      <div *ngIf="registrationForm.get('personalDetails.email').invalid && registrationForm.get('personalDetails.email').touched" style="color: red;">Please enter email id</div>
+
+      <label for="mobile">Mobile no. :</label>
+      <input id="mobile" type="number" placeholder="Your mobile number..." formControlName="mobile"/>
+      <div *ngIf="registrationForm.get('personalDetails.mobile').invalid && registrationForm.get('personalDetails.mobile').touched" style="color: red;">Please enter valid mobile no.</div>
+      <!-- <div *ngIf="registrationForm.get('personalDetails.mobile').invalid && registrationForm.get('personalDetails.mobile').touched">
+        <div *ngIf="registrationForm.get('personalDetails.mobile').errors?.['required']">
+          Mobile number is required.
+          {{registrationForm.get('personalDetails.mobile').errors?.['maxLength']}}
+        </div>
+        <div *ngIf="registrationForm.get('personalDetails.mobile').errors?.['minLength']">
+          Mobile number must be at least 5 digits long.
+        </div>
+        <div *ngIf="registrationForm.get('personalDetails.mobile').errors?.['maxLength']">
+          Mobile number cannot exceed 10 digits.
+        </div>
+      </div> -->
+     </div>
+
+     <label for="age">Age :</label>
+     <input id="age" type="number" placeholder="Your age..." formControlName="age" style="width: 94%;"/>
+     <div *ngIf="registrationForm.get('age').invalid && registrationForm.get('age').touched" style="color: red;">Please enter age betweeen 18 to 25</div>
+
+      <label for="country">Country :</label>
+      <select id="country" formControlName="country">
+        <option value="india">India</option>
+        <option value="america">America</option>
+        <option value="russia">Russia</option>
+        <option value="japan">Japan</option>
+      </select>
+
+      <label for="gender">Gender :</label>
+      <div>
+        <input id="male" type="radio" value="male" name="gender" formControlName="gender"/>
+        <label for="male">Male</label>
+        <input id="female" type="radio" value="female" name="gender" formControlName="gender"/>
+        <label for="female">Female</label>
+        <input id="other" type="radio" value="other" name="gender" formControlName="gender"/>
+        <label for="other">Other</label>
+      </div>
+
+      <!-- <label for="hobbies">Hobbies : <i>(Optional)</i></label>
+      <div>
+        <input id="sport" type="checkbox" value="sport" formControlName="hobbies"/>
+        <label for="sport">Sport</label>
+        <input id="movie" type="checkbox" value="movie" formControlName="hobbies"/>
+        <label for="movie">Movie</label>
+        <input id="music" type="checkbox" value="music" formControlName="hobbies"/>
+        <label for="music">Music</label>
+      </div> -->
+
+      <label for="hobbies">Hobbies : <i>(Optional)</i></label>
+      <div style="display: flex; flex-wrap: wrap;" *ngFor="let hobby of hobbiesArray; let i=index">
+          <input type="checkbox" [value]="hobby" name="hobbies" (change)="getHobby($event)"/>
+          <label for="sport">{{hobby}}</label>
+      </div>
+
+      <div class="row" formArrayName="skills">
+        <label for="skill">Skills :</label>
+        <ng-container *ngFor="let item of registrationForm.get('skills')['controls']; let i=index">
+        <input id="skill" type="text" placeholder="Your skill..." formControlName="{{i}}" [ngClass]="item.invalid && item.touched ? 'err-msg' : ''"/>
+        </ng-container>
+        <button type="submit" style="width: 100px;" (click)="addSkills()">Add Skill</button>
+      </div>
+
+      <button [disabled]="registrationForm.invalid" type="submit" style="width: 94%;">Submit</button>
+      <!-- <button type="submit" value="submit">Submit</button> -->
+    </form>
+  </div>

@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  width: 400px;
+  input {
+    margin: 8px;
+  }
+  select {
+    margin: 8px;
+    width: 94%;
+  }
+  button {
+    margin: 8px;
+  }
+}
+
+.err-msg {
+  border: 1px solid red;
+}
